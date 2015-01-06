@@ -39,7 +39,7 @@ public class IChartServer {
 		}
 	}
 
-	public static void startAll() {
+	public static void startAll(final int HTTP_PORT,final int TCP_PORT) {
 		// TODO init spring
 		final IChartServer chartServer = new IChartServer();
 		new Thread(new Runnable() {
@@ -48,7 +48,7 @@ public class IChartServer {
 			public void run() {
 				try {
 					System.out.println(" start yo listening  80");
-					chartServer.startHttp(80);
+					chartServer.startHttp(HTTP_PORT);
 				} catch (ServletException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
@@ -62,7 +62,7 @@ public class IChartServer {
 			public void run() {
 				try {
 					System.out.println(" start yo listening  8001");
-					chartServer.startTcp(8001);
+					chartServer.startTcp(TCP_PORT);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -70,7 +70,7 @@ public class IChartServer {
 		}).start();
 	}
 	public static void main(String[] args) {
-		startAll();
+		startAll(80,8080);
 //		try {
 //			new IChartServer().startHttp(80);
 //		} catch (ServletException e) {
