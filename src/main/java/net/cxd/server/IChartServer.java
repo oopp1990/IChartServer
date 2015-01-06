@@ -2,6 +2,8 @@ package net.cxd.server;
 
 import javax.servlet.ServletException;
 
+import net.cxd.util.Sessions;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -10,6 +12,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class IChartServer {
+	public void initSpring(){
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"application.xml");
+		Sessions.app = context;
+	}
 
 	public void startHttp(int PORT) throws ServletException,
 			InterruptedException {
@@ -42,6 +49,7 @@ public class IChartServer {
 	public static void startAll(final int HTTP_PORT,final int TCP_PORT) {
 		// TODO init spring
 		final IChartServer chartServer = new IChartServer();
+		chartServer.initSpring();
 		new Thread(new Runnable() {
 
 			@Override
@@ -70,6 +78,7 @@ public class IChartServer {
 		}).start();
 	}
 	public static void main(String[] args) {
+		
 		startAll(80,8080);
 //		try {
 //			new IChartServer().startHttp(80);

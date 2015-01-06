@@ -32,11 +32,7 @@ public class DispatcherServletChannelInitializer extends ChannelInitializer<Sock
 		MockServletConfig servletConfig = new MockServletConfig(servletContext);
 
 		AnnotationConfigWebApplicationContext wac = new AnnotationConfigWebApplicationContext();
-		
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"application.xml");
-		Sessions.applicationContext = context;
-		wac.setParent(context);
+		wac.setParent(Sessions.app);
 		wac.setServletContext(servletContext);
 		wac.setServletConfig(servletConfig);
 		wac.register(WebConfig.class);

@@ -26,6 +26,10 @@
 		<property name="baseDao" ref="baseDao"></property>
 	</bean>
 
+	<bean name="messageService" class="net.cxd.server.MessageService">
+		<property name="baseDao" ref="baseDao"></property>
+	</bean>
+	
 	<bean name="userService" class="net.cxd.http.Service.impl.UserServiceImpl"
 		parent="baseService"></bean>
 

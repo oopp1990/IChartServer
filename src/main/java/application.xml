@@ -69,9 +69,16 @@
 	<bean name="baseService" class="net.cxd.http.Service.impl.BaseServiceImpl">
 		<property name="baseDao" ref="baseDao"></property>
 	</bean>
+	<bean name="msgService" class="net.cxd.server.MessageService">
+		<property name="baseDao" ref="baseDao"></property>
+	</bean>
+	
 
 	<bean name="userService" class="net.cxd.http.Service.impl.UserServiceImpl"
 		parent="baseService"></bean>
+	
+	
+	
 	
 	
 	<!-- 配置公共类对象 <bean id="pageDao" class="cq.base.dao.impl.PageDaoImpl"> <property 
