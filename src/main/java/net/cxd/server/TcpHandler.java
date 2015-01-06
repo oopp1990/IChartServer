@@ -4,11 +4,18 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 public class TcpHandler extends SimpleChannelInboundHandler<String> {
-
+	private static final String START_CHAR="{";
+	private static final String END_CHAR = "}";
 	@Override
 	protected void channelRead0(ChannelHandlerContext channel, String msg)
 			throws Exception {
 		System.out.println(msg);
+		msg = msg.trim();
+		if (msg.startsWith(START_CHAR) && msg.endsWith(END_CHAR)) {
+			
+		}else{
+			
+		}
 	}
 
 	@Override
@@ -18,5 +25,5 @@ public class TcpHandler extends SimpleChannelInboundHandler<String> {
 			//TODO  send error msg
 		}
 	}
-
+	
 }

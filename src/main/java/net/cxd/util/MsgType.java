@@ -1,7 +1,8 @@
 package net.cxd.util;
 
 public enum MsgType {
-	TXT(10), IMG(11), AUDEO(12), FILE(13), USERMSG(21), GROUPMSG(22), SYSTEMMSG(23);
+	HART_BAT(0), TXT(10), IMG(11), AUDEO(12), FILE(13), USERMSG(21), GROUPMSG(
+			22), SYSTEMMSG(23);
 	private int type;
 
 	MsgType(Integer type) {
@@ -18,6 +19,8 @@ public enum MsgType {
 
 	public static MsgType getMsgType(int type) {
 		switch (type) {
+		case 0:
+			return HART_BAT;
 		case 21:
 			return USERMSG;
 		case 22:
