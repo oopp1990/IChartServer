@@ -7,6 +7,7 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import net.cxd.util.Sessions;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -34,7 +35,7 @@ public class DispatcherServletChannelInitializer extends ChannelInitializer<Sock
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"application.xml");
-		
+		Sessions.applicationContext = context;
 		wac.setParent(context);
 		wac.setServletContext(servletContext);
 		wac.setServletConfig(servletConfig);

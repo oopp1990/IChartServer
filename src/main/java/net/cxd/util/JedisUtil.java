@@ -4,10 +4,9 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-
 public class JedisUtil {
 	private static JedisPool pool;
-	static{
+	static {
 		try {
 			JedisPoolConfig config = new JedisPoolConfig();
 			config.setMaxIdle(300);
@@ -18,33 +17,38 @@ public class JedisUtil {
 			e.printStackTrace();
 		}
 	}
-	
-	public static JedisPool getJedisPool(){
+
+	public static JedisPool getJedisPool() {
 		return pool;
-	} 
+	}
+
 	public static Jedis getJedis() {
 		return pool.getResource();
+	}
 
+	public static void returnJedis(Jedis jedis) {
+		pool.returnResource(jedis);
 	}
-	public long getScore(){
-		return Long.parseLong((System.currentTimeMillis()+"").substring(1));
+
+	public long getScore() {
+		return Long.parseLong((System.currentTimeMillis() + "").substring(1));
 	}
-	
-	public static void  hset(String key, String field, String value){
-		Jedis jedis =  pool.getResource();
+
+	public static void hset(String key, String field, String value) {
+		Jedis jedis = pool.getResource();
 		jedis.hset(key, field, value);
 		pool.returnResource(jedis);
 	}
-	public static void lpush(){
-		
+
+	public static void lpush() {
+
 	}
-	
-	public static String hget(String key ,String field){
-		Jedis jedis =  pool.getResource();
+
+	public static String hget(String key, String field) {
+		Jedis jedis = pool.getResource();
 		String str = jedis.hget(key, field);
 		pool.returnResource(jedis);
-		return str ;
+		return str;
 	}
-	
-	
+
 }

@@ -1,7 +1,7 @@
 package net.cxd.util;
 
 public enum MsgType {
-	HART_BAT(0), TXT(10), IMG(11), AUDEO(12), FILE(13), USERMSG(21), GROUPMSG(
+	HART_BAT(0),ERROR(1), TXT(10), IMG(11), AUDEO(12), FILE(13), USERMSG(21), GROUPMSG(
 			22), SYSTEMMSG(23);
 	private int type;
 
