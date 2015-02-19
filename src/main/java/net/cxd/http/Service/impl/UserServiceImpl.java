@@ -55,6 +55,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 			printToJson(response, obj);
 		}
 	}
+	
+	
+	
 
 	@Override
 	public void changePassword(HttpServletRequest request,

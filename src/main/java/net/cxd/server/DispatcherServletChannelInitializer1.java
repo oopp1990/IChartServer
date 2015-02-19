@@ -26,23 +26,21 @@ import org.springframework.web.servlet.ResourceServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-public class DispatcherServletChannelInitializer extends ChannelInitializer<SocketChannel> {
+public class DispatcherServletChannelInitializer1 extends ChannelInitializer<SocketChannel> {
 
 	private final DispatcherServlet dispatcherServlet;
 
-	public DispatcherServletChannelInitializer() throws ServletException {
+	public DispatcherServletChannelInitializer1() throws ServletException {
 
 		MockServletContext servletContext = new MockServletContext();
 		MockServletConfig servletConfig = new MockServletConfig(servletContext);
-		
-//		
-//		ServletContext servletContext = new MockServletContext();
-//		ServletConfig servletConfig = new ResourceServlet();
+
+		//
+		// ServletContext servletContext = new MockServletContext();
+		// ServletConfig servletConfig = new ResourceServlet();
 		AnnotationConfigWebApplicationContext wac = new AnnotationConfigWebApplicationContext();
 		wac.setParent(Sessions.app);
-		
-		
-		
+
 		wac.setServletContext(servletContext);
 		wac.setServletConfig(servletConfig);
 		wac.register(WebConfig.class);
@@ -50,8 +48,8 @@ public class DispatcherServletChannelInitializer extends ChannelInitializer<Sock
 
 		this.dispatcherServlet = new DispatcherServlet(wac);
 		this.dispatcherServlet.init(servletConfig);
-		//servletConfig
-		
+		// servletConfig
+
 	}
 
 	@Override
@@ -60,23 +58,23 @@ public class DispatcherServletChannelInitializer extends ChannelInitializer<Sock
 		ChannelPipeline pipeline = channel.pipeline();
 
 		// Uncomment the following line if you want HTTPS
-		//SSLEngine engine = SecureChatSslContextFactory.getServerContext().createSSLEngine();
-		//engine.setUseClientMode(false);
-		//pipeline.addLast("ssl", new SslHandler(engine));
+		// SSLEngine engine =
+		// SecureChatSslContextFactory.getServerContext().createSSLEngine();
+		// engine.setUseClientMode(false);
+		// pipeline.addLast("ssl", new SslHandler(engine));
 
-//		pipeline.addLast(new HttpServerCodec());
+		// pipeline.addLast(new HttpServerCodec());
 
 		pipeline.addLast("decoder", new HttpRequestDecoder());
-		pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
+		pipeline.addLast("aggregator", new HttpObjectAggregator(8388608));// 8M
 		pipeline.addLast("encoder", new HttpResponseEncoder());
 		pipeline.addLast("chunkedWriter", new ChunkedWriteHandler());
-		pipeline.addLast("handler", new ServletNettyHandler(this.dispatcherServlet));
+		pipeline.addLast("handler", new ServletNettyHandler1(this.dispatcherServlet));
 	}
-
 
 	@Configuration
 	@EnableWebMvc
-	@ComponentScan(basePackages="net.cxd.http.controll")
+	@ComponentScan(basePackages = "net.cxd.http.controll")
 	static class WebConfig extends WebMvcConfigurerAdapter {
 	}
 

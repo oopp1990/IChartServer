@@ -21,7 +21,7 @@ public class TcpChannelInitializer extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast("hart", new IdleStateHandler(60, 15, 13,
 				TimeUnit.SECONDS));
 		pipeline.addLast("decoder", new StringDecoder(Charset.forName("UTF-8")));
-		pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
+//		pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
 		pipeline.addLast("encoder", new StringEncoder(Charset.forName("UTF-8")));
 		// pipeline.addLast("chunkedWriter", new ChunkedWriteHandler());
 		pipeline.addLast("tcpHandler", new TcpHandler());

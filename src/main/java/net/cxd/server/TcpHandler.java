@@ -1,5 +1,7 @@
 package net.cxd.server;
 
+import javax.annotation.Resource;
+
 import net.cxd.util.Sessions;
 import net.cxd.util.TcpStatus;
 import io.netty.channel.ChannelHandlerContext;
@@ -8,12 +10,14 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 
 public class TcpHandler extends SimpleChannelInboundHandler<String> {
-	
+	@Resource(name = "msgService")
 	private MessageService msgService;
-	
+
 	public TcpHandler() {
-		msgService = Sessions.app.getBean("msgService", MessageService.class);
+		// Sessions.app.containsBean("msgService")
+		// msgService = (MessageService) Sessions.app.getBean("msgService");
 	}
+
 	@Override
 	protected void channelRead0(ChannelHandlerContext channel, String msg)
 			throws Exception {
@@ -25,12 +29,7 @@ public class TcpHandler extends SimpleChannelInboundHandler<String> {
 		}
 		// TODO 业务逻辑
 		msgService.read(channel, msg);
-		
-		/*if (msg.startsWith(START_CHAR) && msg.endsWith(END_CHAR)) {
-			
-		} else {
-			channel.writeAndFlush(ERROR);
-		}*/
+
 	}
 
 	@Override

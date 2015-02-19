@@ -68,7 +68,6 @@ public class MessageService extends BaseServiceImpl<BaseBean> implements
 				default:
 					break;
 				}
-
 			} catch (Exception e) {
 				channel.writeAndFlush(TcpStatus.ERROR);
 			} finally {
@@ -118,5 +117,13 @@ public class MessageService extends BaseServiceImpl<BaseBean> implements
 		} else {
 			saveNotReadMsg(oid, buf, jedis);
 		}
+	}
+
+	public BaseDao<BaseBean> getBaseDao() {
+		return baseDao;
+	}
+
+	public void setBaseDao(BaseDao<BaseBean> baseDao) {
+		this.baseDao = baseDao;
 	}
 }

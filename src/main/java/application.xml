@@ -56,7 +56,7 @@
 	<bean id="baseDao" class="cq.base.dao.impl.SSH2BaseDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
+
 	<bean name="friendGroup" class="net.cxd.entity.FriendGroup"></bean>
 	<bean name="user" class="net.cxd.entity.User"></bean>
 	<bean name="userFriend" class="net.cxd.entity.UserFriend"></bean>
@@ -72,15 +72,15 @@
 	<bean name="msgService" class="net.cxd.server.MessageService">
 		<property name="baseDao" ref="baseDao"></property>
 	</bean>
-	
+
 
 	<bean name="userService" class="net.cxd.http.Service.impl.UserServiceImpl"
 		parent="baseService"></bean>
-	
-	
-	
-	
-	
+
+
+
+
+
 	<!-- 配置公共类对象 <bean id="pageDao" class="cq.base.dao.impl.PageDaoImpl"> <property 
 		name="sessionFactory" ref="sessionFactory" /> </bean> -->
 	<!-- <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate"> 
@@ -89,7 +89,8 @@
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<!-- --> <property name="lobHandler" ref="lobHandler" />
+		<!-- -->
+		<property name="lobHandler" ref="lobHandler" />
 
 		<property name="packagesToScan">
 			<list>
@@ -147,5 +148,5 @@
 	</aop:config>
 	<!-- <import resource="net/cxd/config/spring_*.xml" /> -->
 
-	
+
 </beans>
