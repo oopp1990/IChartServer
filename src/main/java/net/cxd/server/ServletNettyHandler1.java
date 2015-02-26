@@ -165,7 +165,7 @@ public class ServletNettyHandler1 extends SimpleChannelInboundHandler<FullHttpRe
 		item.write(temp);// 保存文件在服务器的物理磁盘中
 		File file = new File(tempFile, name);
 		temp.renameTo(file);
-//		temp.delete();
+		// temp.delete();
 		servletRequest.setAttribute(name, file);
 	}
 

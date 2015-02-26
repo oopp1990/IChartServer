@@ -19,8 +19,7 @@ public class TcpHandler extends SimpleChannelInboundHandler<String> {
 	}
 
 	@Override
-	protected void channelRead0(ChannelHandlerContext channel, String msg)
-			throws Exception {
+	protected void channelRead0(ChannelHandlerContext channel, String msg) throws Exception {
 		System.out.println(msg);
 		msg = msg.trim();
 		if (TcpStatus.HART.equals(msg)) {
@@ -33,16 +32,14 @@ public class TcpHandler extends SimpleChannelInboundHandler<String> {
 	}
 
 	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
-			throws Exception {
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		if (ctx.channel().isActive()) {
 			ctx.writeAndFlush(TcpStatus.ERROR);
 		}
 	}
 
 	@Override
-	public void userEventTriggered(ChannelHandlerContext ctx, Object evt)
-			throws Exception {
+	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
 
 		if (evt instanceof IdleStateEvent) {
 			IdleStateEvent event = (IdleStateEvent) evt;

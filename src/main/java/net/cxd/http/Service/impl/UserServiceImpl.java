@@ -32,15 +32,14 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		try {
 			String name = (String) request.getParameter("name");
 			String password = (String) request.getParameter("password");
-			System.out.println(" login >>>>  name:" + name + " password : " + password);
+//			System.out.println(" login >>>>  name:" + name + " password : " + password);
 			getBaseDao().setTableClass(User.class);
-			List<BaseBean> list = getBaseDao().listBySql(" select * from im_user where name='"+name+"'");
+			List<BaseBean> list = getBaseDao().listBySql(" select * from im_user where name='" + name + "'");
 			if (list != null && list.size() > 0) {
-			User user =(User) list.get(0);
-			
+				User user = (User) list.get(0);
+
 				if (user.getPassword().equals(Md5Encrypt.md5(password))) {
-					obj = new ResultBean(JedisUtil.hget("userinfo",
-							user.getId() + ""), true);
+					obj = new ResultBean(JedisUtil.hget("userinfo", user.getId() + ""), true);
 				} else {
 					obj = new ResultBean("登录失败！请检查您的账号密码是否正确！", false);
 				}
@@ -55,13 +54,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 			printToJson(response, obj);
 		}
 	}
-	
-	
-	
 
 	@Override
-	public void changePassword(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void changePassword(HttpServletRequest request, HttpServletResponse response) {
 		Object msg = null;
 		try {
 			getBaseDao().setTableClass(User.class);
@@ -69,7 +64,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 			String password = request.getParameter("password");
 			User user = (User) get(uid);
 			user.setPassword(Md5Encrypt.md5(password));
-			msg = new ResultBean("修改密码成功！", update(user));//update
+			msg = new ResultBean("修改密码成功！", update(user));// update
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg = new ResultBean("出现未知异常， 请联系开发人员！！", false);
@@ -96,10 +91,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 				userInfo.setVipLevel(0);
 				getBaseDao().setTableClass(UserInfo.class);
 				add(userInfo);
-				JedisUtil.hset("userinfo", user.getUid() + "",
-						userInfo.toString());
+				JedisUtil.hset("userinfo", user.getUid() + "", userInfo.toString());
 				msg = new ResultBean(userInfo.toString(), true);
-			}else{
+			} else {
 				msg = new ResultBean("帐号或者密码长度小于6", false);
 			}
 		} catch (Exception e) {
@@ -111,28 +105,27 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUserInfo(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void updateUserInfo(HttpServletRequest request, HttpServletResponse response) {
 		Integer uid = Integer.parseInt(request.getParameter("uid"));
 		String name = request.getParameter("name");
 		String signature = request.getParameter("signature");
 		String phoneNum = request.getParameter("phoneNum");
 		String email = request.getParameter("email");
 		String address = request.getParameter("address");
-		String  photoFile = request.getParameter("photoFile");
+		String photoFile = request.getParameter("photoFile");
 		Jedis jedis = JedisUtil.getJedis();
 		Object msg = null;
 		try {
-			String str = jedis.hget("userinfo", uid+"");
+			String str = jedis.hget("userinfo", uid + "");
 			if (str != null) {
-				UserInfo  user = JSON.parseObject(str, UserInfo.class);
-				if (name != null ) 
+				UserInfo user = JSON.parseObject(str, UserInfo.class);
+				if (name != null)
 					user.setName(name);
-				if (signature != null) 
+				if (signature != null)
 					user.setSignature(signature);
-				if (phoneNum != null ) 
+				if (phoneNum != null)
 					user.setPhoneNum(phoneNum);
-				if (email != null) 
+				if (email != null)
 					user.setEmail(email);
 				if (address != null)
 					user.setAddress(address);
@@ -141,9 +134,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 				}
 				getBaseDao().setTableClass(UserInfo.class);
 				update(user);
-				jedis.hset("userinfo", uid+"", user.toString());
+				jedis.hset("userinfo", uid + "", user.toString());
 				msg = new ResultBean("更新成功!", true);
-			}else{
+			} else {
 				msg = new ResultBean("查无此用户!", false);
 			}
 		} catch (Exception e) {
@@ -154,8 +147,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		}
 	}
 
-	public void printResultBean(HttpServletResponse response, boolean b,
-			String msg) {
+	public void printResultBean(HttpServletResponse response, boolean b, String msg) {
 		if (response != null) {
 			try {
 				OutputStream out = response.getOutputStream();
@@ -172,10 +164,8 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addFriendGroup(HttpServletRequest request,
-			HttpServletResponse response) {
-		FriendGroup group = new FriendGroup(Integer.parseInt(request
-				.getParameter("uid")), request.getParameter("name"));
+	public void addFriendGroup(HttpServletRequest request, HttpServletResponse response) {
+		FriendGroup group = new FriendGroup(Integer.parseInt(request.getParameter("uid")), request.getParameter("name"));
 		Jedis jedis = JedisUtil.getJedis();
 		Object msg = null;
 		try {
@@ -188,8 +178,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 				list = JSONArray.parseArray(str, FriendGroup.class);
 			}
 			list.add(group);
-			jedis.hset("user:FriendGroup", group.getUid() + "",
-					JSONArray.toJSONString(list));
+			jedis.hset("user:FriendGroup", group.getUid() + "", JSONArray.toJSONString(list));
 			msg = new ResultBean("添加成功!", true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -201,8 +190,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteFriendGroup(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void deleteFriendGroup(HttpServletRequest request, HttpServletResponse response) {
 
 		StringBuffer msg = new StringBuffer();
 		boolean b = false;
@@ -231,8 +219,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 							break;
 						}
 					}
-					jedis.hset("user:FriendGroup", gid + "",
-							JSONObject.toJSONString(list));
+					jedis.hset("user:FriendGroup", gid + "", JSONObject.toJSONString(list));
 				}
 				msg.append("删除成功！");
 			}
@@ -241,21 +228,18 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 			msg.append("出现未知异常 ，请联系开API开发人员！");
 		} finally {
 			JedisUtil.getJedisPool().returnResource(jedis);
-//			printResultBean(response, b, msg.toString());
+			// printResultBean(response, b, msg.toString());
 			printToJson(response, new ResultBean(msg.toString(), b));
 		}
 	}
 
 	@Override
-	public void addFriend(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void addFriend(HttpServletRequest request, HttpServletResponse response) {
 		Jedis jedis = JedisUtil.getJedis();
 		StringBuffer msg = new StringBuffer();
 		boolean b = false;
 		try {
-			UserFriend friend = new UserFriend(Integer.parseInt(request
-					.getParameter("gid")), Integer.parseInt(request
-					.getParameter("uid")));
+			UserFriend friend = new UserFriend(Integer.parseInt(request.getParameter("gid")), Integer.parseInt(request.getParameter("uid")));
 			b = add(friend);
 
 			jedis.hset("UserFriend", friend.getId() + "", friend.toString());
@@ -265,22 +249,20 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 				list = JSONArray.parseArray(str, UserFriend.class);
 			}
 			list.add(friend);
-			jedis.hset("user:Friend", friend.getGid() + "",
-					JSONArray.toJSONString(list));
+			jedis.hset("user:Friend", friend.getGid() + "", JSONArray.toJSONString(list));
 			msg.append("更新成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg.append("更新出现未知错误，请联系开发人员!");
 		} finally {
-//			printResultBean(response, b, msg.toString());
+			// printResultBean(response, b, msg.toString());
 			printToJson(response, new ResultBean(msg.toString(), b));
 			JedisUtil.getJedisPool().returnResource(jedis);
 		}
 	}
 
 	@Override
-	public void removeFriendToOtherGroup(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void removeFriendToOtherGroup(HttpServletRequest request, HttpServletResponse response) {
 		// 获取该id的用户， 更新表 更新redis
 		// 更新
 
@@ -290,8 +272,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));// 该记录id
 			int gid = Integer.parseInt(request.getParameter("gid"));
-			UserFriend friend = JSON.parseObject(
-					jedis.hget("UserFriend", id + ""), UserFriend.class);
+			UserFriend friend = JSON.parseObject(jedis.hget("UserFriend", id + ""), UserFriend.class);
 			friend.setGid(gid);
 			getBaseDao().setTableClass(UserFriend.class);
 			b = update(friend);// 更新数据库记录
@@ -311,23 +292,21 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 						}
 					}
 				}
-				jedis.hset("user:Friend", friend.getGid() + "",
-						JSONArray.toJSONString(list));
+				jedis.hset("user:Friend", friend.getGid() + "", JSONArray.toJSONString(list));
 			}
 			msg.append("更新成功！");
 		} catch (Exception e) {
 			msg.append("更新出现未知错误， 请联系开发人员！");
 			e.printStackTrace();
 		} finally {
-//			printResultBean(response, b, msg.toString());
+			// printResultBean(response, b, msg.toString());
 			printToJson(response, new ResultBean(msg.toString(), b));
 			JedisUtil.getJedisPool().returnResource(jedis);
 		}
 	}
 
 	@Override
-	public void removeFriend(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void removeFriend(HttpServletRequest request, HttpServletResponse response) {
 
 		// 获取该id的用户， 更新表 更新redis
 		// 更新
@@ -338,8 +317,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));// 该记录id
 			int gid = Integer.parseInt(request.getParameter("gid"));
-			UserFriend friend = JSON.parseObject(
-					jedis.hget("UserFriend", id + ""), UserFriend.class);
+			UserFriend friend = JSON.parseObject(jedis.hget("UserFriend", id + ""), UserFriend.class);
 			friend.setGid(gid);
 
 			Integer[] ids = new Integer[] { id };
@@ -361,28 +339,24 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 						}
 					}
 				}
-				jedis.hset("user:Friend", friend.getGid() + "",
-						JSONArray.toJSONString(list));
+				jedis.hset("user:Friend", friend.getGid() + "", JSONArray.toJSONString(list));
 			}
 			msg.append("删除成功！");
 		} catch (Exception e) {
 			msg.append("删除出现未知错误， 请联系开发人员！");
 			e.printStackTrace();
 		} finally {
-//			printResultBean(response, b, msg.toString());
+			// printResultBean(response, b, msg.toString());
 			printToJson(response, new ResultBean(msg.toString(), b));
 			JedisUtil.getJedisPool().returnResource(jedis);
 		}
 	}
 
 	@Override
-	public void getAllFriend(HttpServletRequest request,
-			HttpServletResponse response) {
-		String str = JedisUtil.hget("user:FriendGroup",
-				request.getParameter("uid"));
+	public void getAllFriend(HttpServletRequest request, HttpServletResponse response) {
+		String str = JedisUtil.hget("user:FriendGroup", request.getParameter("uid"));
 		if (str != null) {
-			List<FriendGroup> list = JSONArray.parseArray(str,
-					FriendGroup.class);
+			List<FriendGroup> list = JSONArray.parseArray(str, FriendGroup.class);
 			for (FriendGroup ff : list) {
 				Jedis jedis = JedisUtil.getJedis();
 				String strs = jedis.hget("user:Friend", ff.getUid() + "");

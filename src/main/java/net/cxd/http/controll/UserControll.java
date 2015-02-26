@@ -38,15 +38,7 @@ public class UserControll {
 	@RequestMapping(value = "/login")
 	@ResponseBody
 	public String login(MockHttpServletRequest request, MockHttpServletResponse response, HttpSession session) throws IllegalStateException, IOException, ServletException {
-		// String name = (String) request.getParameter("name");
-		// String password = (String) request.getParameter("password");
-		System.out.println("request.getContentLength()" + request.getContentLength());
-		System.out.println(JSON.toJSONString(request.getParameterMap()));
-		System.out.println(JSON.toJSONString(request.getParts()));
-		 getBaseService().login(request, response);
-//		response.setCharacterEncoding("utf-8");
-//		response.setContentLength("bbbbb".getBytes().length);
-//		response.setContentType("text/plain");
+		getBaseService().login(request, response);
 		return null;
 	}
 

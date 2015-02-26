@@ -7,9 +7,7 @@ import net.cxd.http.Service.BaseService;
 import cq.base.dao.BaseDao;
 import cq.base.entity.BaseBean;
 
-public class BaseServiceImpl extends
-		cq.base.service.impl.BaseServiceImpl<BaseBean> implements BaseService,
-		cq.base.service.BaseService<BaseBean> {
+public class BaseServiceImpl extends cq.base.service.impl.BaseServiceImpl<BaseBean> implements BaseService, cq.base.service.BaseService<BaseBean> {
 	private BaseDao<BaseBean> baseDao;
 
 	public BaseDao<BaseBean> getBaseDao() {
@@ -23,77 +21,67 @@ public class BaseServiceImpl extends
 	@Override
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void regist(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void addGroup(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void addGroup(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void getAllFriend(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void getAllFriend(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void addFriendGroup(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void addFriendGroup(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void addFriend(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void addFriend(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void deleteFriendGroup(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void deleteFriendGroup(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void removeFriendToOtherGroup(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void removeFriendToOtherGroup(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void removeFriend(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void removeFriend(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void updateUserInfo(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void updateUserInfo(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void changePassword(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void changePassword(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }
